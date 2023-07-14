@@ -65,14 +65,14 @@
                 <p class="box5">
                     <a href="{% url 'dispatch:dispatch_detail' pk=dispatch.pk %}" style="text-decoration:none; color:black">{{ dispatch.content }}</a>
                 </p>
-                <span class="dispatch-time">{{ dispatch.created_at|date:'Y-m-dTH:i:s' }}</span>
+                <span class="dispatch-time">{{ dispatch.created_at|date:'Y-m-d H:i:s' }}</span>
                 <p>답변 {{ dispatch.comment_set.count }}개 · 나도 궁금해요 12</p>
                 <hr />
                 <div class="share">
                     <b>저장하기</b>
                     <b><a href="{% url 'dispatch:dispatch_detail' pk=dispatch.pk %}">댓글쓰기</a>
                     </b>
-                    <b><button onclick="">?나도궁금 </button></b>
+                    <b>?나도궁금</b>
                 </div>
                 <hr />
             {% endfor %}
@@ -80,13 +80,7 @@
 
         <div class="prof">
  <div style="display:flex; flex-direction:row">
-            <div
-                style="
-                    width: 40px;
-                    height: 40px;"><img style="
-                    width: 40px;
-                    height: 40px; border-radius:100%" src="{% static 'profile.svg' %}">
-            </div>
+
                 <div style="margin-left: 5px">
                     {% for comment in dispatch.comment_set.all %}
                     {{ comment.author }}리얼로컬<br />

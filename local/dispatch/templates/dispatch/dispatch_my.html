@@ -3,9 +3,28 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
+        <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+
         <link rel="stylesheet" href="{% static 'css/base2.css' %}" />
+        <script>
+            // HTML이 로드된 후 실행되는 함수
+            window.onload = function() {
+                var dispatchTimes = document.getElementsByClassName("dispatch-time");
+                for (var i = 0; i < dispatchTimes.length; i++) {
+                    var createdAt = dispatchTimes[i].textContent;
+                    var parsedTime = moment(createdAt, "YYYY-MM-DDTHH:mm:ssZ").fromNow();
+                    dispatchTimes[i].textContent = parsedTime;
+                }
+            };
+        </script>
     </head>
     <body>
         <div class="top">
@@ -28,90 +47,42 @@
             </ul>
         </div>
         <!---->
-
-        <div class="prof">
+        <li class="list-group-item">
+<!--            <div style="display:flex; flex-direction:row">-->
+            <div style="display:flex;">
             <div
                 style="
                     width: 40px;
-                    height: 40px;
-                    border: 1px solid;
-                    border-radius: 100%;
-                "
-            ></div>
-            <div style="margin-left: 5px"><b>닉네임</b><br />삿포로, 일본</div>
-        </div>
-        <p class="box5">
-            지금 삿포로 시내 스스키노 거리 부근이 다 공사 중이라는데 맞나요?
-            숙소를 그 근처에 잡았는데 소음이 심할까봐 걱정됩니다.. 그 근처에
-            계시는 분 아무나 알려주세요!
-        </p>
-        <p>1시간 전</p>
-        <p>답변 2개 · 나도 궁금해요 12</p>
-        <hr />
-        <div class="share">
-            <b>저장하기</b> <b>댓글 쓰기</b> <b>공유하기</b>
-        </div>
-        <hr />
-        <!---->
-        <div class="prof">
-            <div
-                style="
-                    width: 30px;
-                    height: 30px;
-                    border: 1px solid;
-                    border-radius: 100%;
-                "
-            ></div>
-            <div style="margin-left: 5px">
-                <b>닉네임</b>리얼로컬<br />스스키노 1번가 쪽만 공사 중이고 다른
-                곳은 괜찮아요~
-            </div>
-        </div>
-        <b id="diff" name="diff">다른 답변 보기</b>
-        <div class="empty"></div>
-        <hr />
-        <div class="prof">
-            <div
-                style="
+                    height: 40px;"><img style="
                     width: 40px;
-                    height: 40px;
-                    border: 1px solid;
-                    border-radius: 100%;
-                "
-            ></div>
-            <div style="margin-left: 5px"><b>닉네임</b><br />삿포로, 일본</div>
-        </div>
-        <p class="box5">
-            지금 삿포로 시내 스스키노 거리 부근이 다 공사 중이라는데 맞나요?
-            숙소를 그 근처에 잡았는데 소음이 심할까봐 걱정됩니다.. 그 근처에
-            계시는 분 아무나 알려주세요!
-        </p>
-        <p>1시간 전</p>
-        <p>답변 2개 · 나도 궁금해요 12</p>
-        <hr />
-        <div class="share">
-            <b>저장하기</b> <b>댓글 쓰기</b> <b>공유하기</b>
-        </div>
-        <hr />
-        <!---->
-        <div class="prof">
-            <div
-                style="
-                    width: 30px;
-                    height: 30px;
-                    border: 1px solid;
-                    border-radius: 100%;
-                "
-            ></div>
-            <div style="margin-left: 5px">
-                <b>닉네임</b>리얼로컬<br />스스키노 1번가 쪽만 공사 중이고 다른
-                곳은 괜찮아요~
+                    height: 40px; border-radius:100%" src="{% static 'profile.svg' %}" style="border-radius:10px">
             </div>
-        </div>
-        <b id="diff" name="diff">다른 답변 보기</b>
-        <div id="empty"></div>
+                {% for dispatch_obj in my_dispatchs %}
+            <div style="margin-left:5px">
+                {{ dispatch_obj.author }}<br>
+                {{ dispatch_obj.city }}, {{ dispatch_obj.country }}
+                </div>
+                </div>
+                <a href="{% url 'dispatch:dispatch_detail' pk=dispatch_obj.pk %}">{{ dispatch_obj.content }}</a>
+                <br>
+                <br>
+                <span class="dispatch-time">{{ dispatch_obj.created_at|date:'Y-m-d H:i:s' }}</span>
 
-        <a href=""><img src="{% static 'plus.svg' %}" id="plus" /></a>
+                <hr>
+                {% for comment in dispatch_obj.comment_set.all %}
+                <div>
+                    <strong>{{ comment.author }}</strong>
+                    <p>{{ comment.content }}</p>
+                </div>
+                {% empty %}
+                <p>작성한 댓글이 없습니다.</p>
+                {% endfor %}
+                {% empty %}
+                <p>작성한 dispatch가 없습니다.</p>
+                {% endfor %}
+            </li>
+
+        <a href="{% url 'dispatch:dispatch_post' %}"><img src="{% static 'plus.svg' %}" id="plus" /></a>
         <footer>
             <div class="footer">
                 <ul class="foot">

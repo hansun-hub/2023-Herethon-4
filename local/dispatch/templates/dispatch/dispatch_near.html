@@ -36,94 +36,123 @@
                 </li>
             </ul>
         </div>
-        <form>
-            {% csrf_token %}
-            <input type="search" class="city" />
+        {% if query %}
+        <p><b>"{{query}}" 에 대한 결과</b></p>
+        {% else %}
+        <p><b>내 근처 지역</b></p>
+        {% endif %}
+        <form id="rc-form" action="{% url 'dispatch:near_list' %}">
+            <input
+                type="text"
+                name="query"
+                placeholder="내 근처 여행지를 검색해보세요!"
+                style="width: 80%"
+            />
             <input type="submit" value="&#128269;" />
         </form>
-        <br /><br />
-        <div class="prof">
-            <div
-                style="
-                    width: 40px;
-                    height: 40px;
-                    border: 1px solid;
-                    border-radius: 100%;
-                "
-            ></div>
-            <div style="margin-left: 5px"><b>닉네임</b><br />삿포로, 일본</div>
+        {% for dispatch in dispatch %}
+        <div class="box3">
+            <section class="vid">
+                <b>{{dispatch.author}}</b>
+                <br /><b style="font-size: 10pt; color: #ff552b"
+                    >{{dispatch.country}}, {{dispatch.city}}</b
+                ><br />
+                <b>{{dispatch.content}}</b>
+                <br />
+                {{dispatch.created_at}}
+            </section>
         </div>
-        <p class="box5">
-            지금 삿포로 시내 스스키노 거리 부근이 다 공사 중이라는데 맞나요?
-            숙소를 그 근처에 잡았는데 소음이 심할까봐 걱정됩니다.. 그 근처에
-            계시는 분 아무나 알려주세요!
-        </p>
-        <p>1시간 전</p>
-        <p>답변 2개 · 나도 궁금해요 12</p>
-        <hr />
-        <div class="share">
-            <b>저장하기</b> <b>댓글 쓰기</b> <b>공유하기</b>
-        </div>
-        <hr />
-        <!---->
-        <div class="prof">
-            <div
-                style="
-                    width: 30px;
-                    height: 30px;
-                    border: 1px solid;
-                    border-radius: 100%;
-                "
-            ></div>
-            <div style="margin-left: 5px">
-                <b>닉네임</b>리얼로컬<br />스스키노 1번가 쪽만 공사 중이고 다른
-                곳은 괜찮아요~
-            </div>
-        </div>
-        <b id="diff" name="diff">다른 답변 보기</b>
-        <div class="empty"></div>
-        <hr />
-        <div class="prof">
-            <div
-                style="
-                    width: 40px;
-                    height: 40px;
-                    border: 1px solid;
-                    border-radius: 100%;
-                "
-            ></div>
-            <div style="margin-left: 5px"><b>닉네임</b><br />삿포로, 일본</div>
-        </div>
-        <p class="box5">
-            지금 삿포로 시내 스스키노 거리 부근이 다 공사 중이라는데 맞나요?
-            숙소를 그 근처에 잡았는데 소음이 심할까봐 걱정됩니다.. 그 근처에
-            계시는 분 아무나 알려주세요!
-        </p>
-        <p>1시간 전</p>
-        <p>답변 2개 · 나도 궁금해요 12</p>
-        <hr />
-        <div class="share">
-            <b>저장하기</b> <b>댓글 쓰기</b> <b>공유하기</b>
-        </div>
-        <hr />
-        <!---->
-        <div class="prof">
-            <div
-                style="
-                    width: 30px;
-                    height: 30px;
-                    border: 1px solid;
-                    border-radius: 100%;
-                "
-            ></div>
-            <div style="margin-left: 5px">
-                <b>닉네임</b>리얼로컬<br />스스키노 1번가 쪽만 공사 중이고 다른
-                곳은 괜찮아요~
-            </div>
-        </div>
-        <b id="diff" name="diff">다른 답변 보기</b>
-        <div id="empty"></div>
-        <a href=""><img src="{% static 'plus.svg' %}" id="plus" /></a>
+        <br />
+        {% empty %} {% endfor %}
+
+<!--        <form>-->
+<!--            {% csrf_token %}-->
+<!--            <input type="search" class="city" />-->
+<!--            <input type="submit" value="&#128269;" />-->
+<!--        </form>-->
+<!--        <br /><br />-->
+<!--        <div class="prof">-->
+<!--            <div-->
+<!--                style="-->
+<!--                    width: 40px;-->
+<!--                    height: 40px;-->
+<!--                    border: 1px solid;-->
+<!--                    border-radius: 100%;-->
+<!--                "-->
+<!--            ></div>-->
+<!--            <div style="margin-left: 5px"><b>닉네임</b><br />삿포로, 일본</div>-->
+<!--        </div>-->
+<!--        <p class="box5">-->
+<!--            지금 삿포로 시내 스스키노 거리 부근이 다 공사 중이라는데 맞나요?-->
+<!--            숙소를 그 근처에 잡았는데 소음이 심할까봐 걱정됩니다.. 그 근처에-->
+<!--            계시는 분 아무나 알려주세요!-->
+<!--        </p>-->
+<!--        <p>1시간 전</p>-->
+<!--        <p>답변 2개 · 나도 궁금해요 12</p>-->
+<!--        <hr />-->
+<!--        <div class="share">-->
+<!--            <b>저장하기</b> <b>댓글 쓰기</b> <b>공유하기</b>-->
+<!--        </div>-->
+<!--        <hr />-->
+<!--        &lt;!&ndash;&ndash;&gt;-->
+<!--        <div class="prof">-->
+<!--            <div-->
+<!--                style="-->
+<!--                    width: 30px;-->
+<!--                    height: 30px;-->
+<!--                    border: 1px solid;-->
+<!--                    border-radius: 100%;-->
+<!--                "-->
+<!--            ></div>-->
+<!--            <div style="margin-left: 5px">-->
+<!--                <b>닉네임</b>리얼로컬<br />스스키노 1번가 쪽만 공사 중이고 다른-->
+<!--                곳은 괜찮아요~-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <b id="diff" name="diff">다른 답변 보기</b>-->
+<!--        <div class="empty"></div>-->
+<!--        <hr />-->
+<!--        <div class="prof">-->
+<!--            <div-->
+<!--                style="-->
+<!--                    width: 40px;-->
+<!--                    height: 40px;-->
+<!--                    border: 1px solid;-->
+<!--                    border-radius: 100%;-->
+<!--                "-->
+<!--            ></div>-->
+<!--            <div style="margin-left: 5px"><b>닉네임</b><br />삿포로, 일본</div>-->
+<!--        </div>-->
+<!--        <p class="box5">-->
+<!--            지금 삿포로 시내 스스키노 거리 부근이 다 공사 중이라는데 맞나요?-->
+<!--            숙소를 그 근처에 잡았는데 소음이 심할까봐 걱정됩니다.. 그 근처에-->
+<!--            계시는 분 아무나 알려주세요!-->
+<!--        </p>-->
+<!--        <p>1시간 전</p>-->
+<!--        <p>답변 2개 · 나도 궁금해요 12</p>-->
+<!--        <hr />-->
+<!--        <div class="share">-->
+<!--            <b>저장하기</b> <b>댓글 쓰기</b> <b>공유하기</b>-->
+<!--        </div>-->
+<!--        <hr />-->
+<!--        &lt;!&ndash;&ndash;&gt;-->
+<!--        <div class="prof">-->
+<!--            <div-->
+<!--                style="-->
+<!--                    width: 30px;-->
+<!--                    height: 30px;-->
+<!--                    border: 1px solid;-->
+<!--                    border-radius: 100%;-->
+<!--                "-->
+<!--            ></div>-->
+<!--            <div style="margin-left: 5px">-->
+<!--                <b>닉네임</b>리얼로컬<br />스스키노 1번가 쪽만 공사 중이고 다른-->
+<!--                곳은 괜찮아요~-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <b id="diff" name="diff">다른 답변 보기</b>-->
+<!--        <div id="empty"></div>-->
+<!--        <a href=""><img src="{% static 'plus.svg' %}" id="plus" /></a>-->
         <footer>
             <div class="footer">
                 <ul class="foot">

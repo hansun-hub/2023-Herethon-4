@@ -1,28 +1,70 @@
+{% load static %}
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/base2.css' %}" />
+
     <title>dispatch 앱</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.1/font/bootstrap-icons.css">
+    <style>
+            .aaa:link a:visited{
+            text-decoration: none;
+            color:black;
+            }
+     </style>
 </head>
 <body>
-<div class="container">
-    <h1>해당 dispatch 상세보기</h1>
+        <div class="top">
+            <img src="{% static 'logo.svg' %}" />
+            <img src="{% static 'alert.svg' %}" />
+            <img src="{% static 'ticket.svg' %}" />
+            <b style="color: #ff552b">3개</b>
+        </div>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ dispatch_obj.username }}</h5>
-                        <p class="card-text">{{ dispatch_obj.city }}, {{ dispatch_obj.country }}</p>
-                        <p class="card-text">{{ dispatch_obj.content }}</p>
-                        <p class="card-text">{{ dispatch_obj.created_at }}</p>
-                        <a href="{% url 'dispatch:all_list' %}" class="btn btn-primary">목록으로</a>
+        <div>
+            <ul class="menu1">
+                <li>
+                    <a href="{% url 'dispatch:all_list' %}"><b>전체</b></a>
+                </li>
+                <li>
+                    <a href="{% url 'dispatch:near_list' %}">여기 근처</a>
+                </li>
+                <li>
+                    <a href="{% url 'dispatch:my_list' %}">내 파견</a>
+                </li>
+            </ul>
+        </div>
+        <div class="container">
+            <b>해당 파견 게시글</b>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div style="display: flex">
+                                    <img src="{% static 'profile.svg' %}" style="border-radius:100%; width:35px; height:35px"/>
+                                    <section>
+                                        <b class="card-title">
+                                            {{ dispatch_obj.author }}
+                                        </b>
+                                        <br />
+                                        <b class="card-text">
+                                            {{ dispatch_obj.city }}, {{ dispatch_obj.country }}
+                                        </b>
+                                    </section>
+                                </div>
+
+                                <p class="card-text">{{ dispatch_obj.content }}</p>
+                                <p class="card-text">{{ dispatch_obj.created_at }}</p>
+                                <a href="{% url 'dispatch:all_list' %}" class="btn btn-dark" style="color: white;">목록으로</a>
+
+
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
     <hr>
     {% for comment in dispatch_obj.comment_set.all %}
@@ -38,12 +80,31 @@
         <form method="post" action="{% url 'dispatch:dispatch_detail' dispatch_obj.pk %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Submit</button>
+<!--        <button type="submit" class="btn btn-primary" >Submit</button>-->
+            <button type="submit" class="btn btn-dark">Submit</button>
+
         </form>
 
     {% else %}
         로그인을 하세요
     {% endif %}
 </div>
+    <footer>
+            <div class="footer">
+                <ul class="foot">
+                    <li>
+                        <a href=""><img src="{% static 'Group 4.svg' %}" /></a>
+                    </li>
+                    <li>
+                        <a href=""
+                            ><img src="{% static 'Group 3on.svg' %}"
+                        /></a>
+                    </li>
+                    <li><img src="{% static 'Group 2.svg' %}" /></li>
+                    <li><img src="{% static 'Group 511.svg' %}" /></li>
+                </ul>
+            </div>
+        </footer>
+        <script src="{% static 'js/moreComments.js' %}"></script>
 </body>
 </html>

@@ -10,12 +10,20 @@ def whole_list(request):
     return render(request, 'dispatch/dispatch_all.html', {'dispatchs':dispatchs})
 
 def near_list(request):
-    return render(request, 'dispatch/dispatch_near.html', {})
+    dispatch = Dispatch.objects.all()
+    query = request.GET.get('query')
+    if query:
+         dispatch = Dispatch.objects.filter(country__icontains=query) | Dispatch.objects.filter(city__icontains=query)
+    context = {
+        'dispatch': dispatch,
+        'query': query,
+    }
+    return render(request, 'dispatch/dispatch_near.html', context)
 
 @login_required
 def my_list(request):
-    my_dispatchs = Dispatch.objects.filter(username=request.user)
-    return render(request, 'dispatch/my.html', {'my_dispatchs': my_dispatchs})
+    my_dispatchs = Dispatch.objects.filter(author=request.user)
+    return render(request, 'dispatch/dispatch_my.html', {'my_dispatchs': my_dispatchs})
 
 # def dispatch_detail(request, pk):
 #     print(pk)
