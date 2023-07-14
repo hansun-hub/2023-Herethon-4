@@ -15,56 +15,24 @@
      </style>
 </head>
 <body>
-        <div class="top">
-            <img src="{% static 'logo.svg' %}" />
-            <img src="{% static 'alert.svg' %}" />
-            <img src="{% static 'ticket.svg' %}" />
-            <b style="color: #ff552b">3개</b>
-        </div>
+<div class="container">
+    <h1>해당 dispatch 상세보기</h1>
 
-        <div>
-            <ul class="menu1">
-                <li>
-                    <a href="{% url 'dispatch:all_list' %}"><b>전체</b></a>
-                </li>
-                <li>
-                    <a href="{% url 'dispatch:near_list' %}">여기 근처</a>
-                </li>
-                <li>
-                    <a href="{% url 'dispatch:my_list' %}">내 파견</a>
-                </li>
-            </ul>
-        </div>
-        <div class="container">
-            <b>해당 파견 게시글</b>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div style="display: flex">
-                                    <img src="{% static 'profile.svg' %}" style="border-radius:100%; width:35px; height:35px"/>
-                                    <section>
-                                        <b class="card-title">
-                                            {{ dispatch_obj.author }}
-                                        </b>
-                                        <br />
-                                        <b class="card-text">
-                                            {{ dispatch_obj.city }}, {{ dispatch_obj.country }}
-                                        </b>
-                                    </section>
-                                </div>
-
-                                <p class="card-text">{{ dispatch_obj.content }}</p>
-                                <p class="card-text">{{ dispatch_obj.created_at }}</p>
-                                <a href="{% url 'dispatch:all_list' %}" class="btn btn-dark" style="color: white;">목록으로</a>
-
-
-                            </div>
-                        </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ dispatch_obj.username }}</h5>
+                        <p class="card-text">{{ dispatch_obj.city }}, {{ dispatch_obj.country }}</p>
+                        <p class="card-text">{{ dispatch_obj.content }}</p>
+                        <p class="card-text">{{ dispatch_obj.created_at }}</p>
+                        <a href="{% url 'dispatch:all_list' %}" class="btn btn-primary">목록으로</a>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 
     <hr>
     {% for comment in dispatch_obj.comment_set.all %}
